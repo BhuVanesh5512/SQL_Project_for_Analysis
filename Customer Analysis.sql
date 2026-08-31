@@ -29,3 +29,16 @@ select customer_city, count(customer_city) as customer_count from olist_customer
 
 #5. How many customers placed more than one order?
 select c.customer_id, count(order_id) as order_count  from olist_customers_dataset c inner join olist_orders_dataset o where c.customer_id = o.customer_id group by customer_id order by order_count desc;
+select * from olist_orders_dataset;
+select count(customer_id) from (select customer_id,count(order_id) from olist_orders_dataset  group by customer_id having count(order_id)>1) as t;
+#0
+
+#6.  What percentage of customers are repeat customers?
+select ((count(customer_id)/(select count(customer_id) as total from olist_customers_dataset))*100) as percentage_of_repeat_cutomers from (select customer_id,count(order_id) from olist_orders_dataset  group by customer_id having count(order_id)>1) as t;
+
+#7. Which customers placed the most orders?
+select customer_id,count(order_id) as order_placed from olist_orders_dataset  group by customer_id order by count(order_id) desc;
+
+#8.  Which customers generated the highest revenue?
+select c.customer_id ,round(sum(price)+sum(freight_value),2) as total_spent from olist_customers_dataset c  inner join olist_orders_dataset o on c.customer_id = o.customer_id  inner join olist_order_items_dataset ot where  o.order_id = ot.order_id  group by customer_id order by total_spent desc limit 1;
+#1617b1357756262bfa56ab541c47bc16	13664.08
