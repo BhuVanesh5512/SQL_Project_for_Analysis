@@ -19,18 +19,28 @@ select product_category_name,count(s.product_id) as sold from olist_products_dat
 #cama_mesa_banho	11115
 
 #6 Which categories generated the highest revenue?
-select product_category_name,count(s.product_id) as sold,round(SUM(PRICE),2) as revenue from olist_products_dataset p inner join olist_order_items_dataset s where p.product_id = s.product_id group by product_category_name order by revenue desc limit 1;
-#beleza_saude	9670	1258681.34
+select product_category_name,count(s.product_id) as sold,round(SUM(PRICE)+SUM(freight_value),2) as revenue from olist_products_dataset p inner join olist_order_items_dataset s where p.product_id = s.product_id group by product_category_name order by revenue desc limit 1;
+#beleza_saude	9670	1441248.07
 
 #7 Which categories generated the lowest revenue?
-select product_category_name,count(s.product_id) as sold,round(SUM(PRICE),2) as revenue from olist_products_dataset p inner join olist_order_items_dataset s where p.product_id = s.product_id group by product_category_name order by revenue asc limit 1;
-#seguros_e_servicos	2	283.29
+select product_category_name,count(s.product_id) as sold,round(SUM(PRICE)+SUM(freight_value),2) as revenue from olist_products_dataset p inner join olist_order_items_dataset s where p.product_id = s.product_id group by product_category_name order by revenue asc limit 1;
+#seguros_e_servicos	2	324.51
 
 #8 What is the average product price by category?
-select product_category_name, round(avg(price),2) as average_product_price from olist_products_dataset p inner join olist_order_items_dataset s on p.product_id = s.product_id group by product_category_name order by average_product_price desc;
+select product_category_name, round(avg(price)+avg(freight_value),2) as average_product_price from olist_products_dataset p inner join olist_order_items_dataset s on p.product_id = s.product_id group by product_category_name order by average_product_price desc;
 
 #9  What are the top 10 product categories by revenue?
-select product_category_name,count(s.product_id) as sold,round(SUM(PRICE),2) as revenue from olist_products_dataset p inner join olist_order_items_dataset s where p.product_id = s.product_id group by product_category_name order by revenue desc limit 10;
+select product_category_name,count(s.product_id) as sold,round(SUM(PRICE)+SUM(freight_value),2) as revenue from olist_products_dataset p inner join olist_order_items_dataset s where p.product_id = s.product_id group by product_category_name order by revenue desc limit 10;
+#beleza_saude	9670	1441248.07
+#relogios_presentes	5991	1305541.61
+#cama_mesa_banho	11115	1241681.72
+#esporte_lazer	8641	1156656.48
+#informatica_acessorios	7827	1059272.4
+#moveis_decoracao	8334	902511.79
+#utilidades_domesticas	6964	778397.77
+#cool_stuff	3796	719329.95
+#automotivo	4235	685384.32
+#ferramentas_jardim	4347	584219.21
 
 #10 What percentage of total revenue comes from the top 10 categories?
 select round(sum(revenue),2) as top_10_revenue from (select product_category_name,count(s.product_id) as sold,round(SUM(PRICE),2) as revenue from olist_products_dataset p inner join olist_order_items_dataset s where p.product_id = s.product_id group by product_category_name order by revenue desc limit 10) as t;
