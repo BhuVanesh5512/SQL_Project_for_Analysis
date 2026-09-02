@@ -2,11 +2,11 @@
 select * from olist_sellers_dataset;
 select count(seller_id) from olist_sellers_dataset;
 
-select count(distinct(s.seller_id)) from olist_sellers_dataset s left join olist_order_items_dataset o on s.seller_id = o.seller_id;
+select count(distinct(s.seller_id)) as active_sellers from olist_sellers_dataset s left join olist_order_items_dataset o on s.seller_id = o.seller_id;
 #3095
 
 #2. Which state contains the highest number of sellers?
-select seller_state , count(seller_id) from olist_sellers_dataset group by seller_state order by count(seller_id) desc limit 1;
+select seller_state , count(seller_id) as active_members from olist_sellers_dataset group by seller_state order by active_members desc limit 1;
 #SP	1849
 
 #3. Which city contains the highest number of sellers?
