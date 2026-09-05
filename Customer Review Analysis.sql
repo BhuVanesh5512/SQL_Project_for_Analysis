@@ -17,14 +17,17 @@ select (round((select sum(count_rating) as positive from (select review_score , 
 #14.00
 
 #5. Which product categories have the highest average ratings?
-select product_category_name,count(p.product_id) as no_of_products,round(avg(review_score),2) as average_rating ,count(review_score) as given_by from olist_order_reviews_dataset r inner join olist_order_items_dataset ot on r.order_id = ot.order_id inner join  olist_products_dataset p on ot.product_id = p.product_id group by product_category_name order by  given_by , average_rating,no_of_products desc; 
-
+select product_category_name,count(p.product_id) as no_of_products,round(avg(review_score),2) as average_rating ,count(review_score) as given_by from olist_order_reviews_dataset r inner join olist_order_items_dataset ot on r.order_id = ot.order_id inner join  olist_products_dataset p on ot.product_id = p.product_id group by product_category_name having no_of_products>20 order by  average_rating desc limit 1; 
+#informatica_acessorios	21	4.43	21
 
 #6. Which product categories have the lowest ratings?
-select product_category_name,count(p.product_id) as no_of_products,round(avg(review_score),2) as average_rating ,count(review_score) as given_by from olist_order_reviews_dataset r inner join olist_order_items_dataset ot on r.order_id = ot.order_id inner join  olist_products_dataset p on ot.product_id = p.product_id group by product_category_name order by  given_by , average_rating,no_of_products asc; 
+select product_category_name,count(p.product_id) as no_of_products,round(avg(review_score),2) as average_rating ,count(review_score) as given_by from olist_order_reviews_dataset r inner join olist_order_items_dataset ot on r.order_id = ot.order_id inner join  olist_products_dataset p on ot.product_id = p.product_id group by product_category_name having no_of_products>20 order by  average_rating asc; 
+#utilidades_domesticas	31	3.55	31
 
 #7. Which sellers have the highest average ratings?
-select p.seller_id,count(ot.product_id) as no_of_products,round(avg(review_score),2) as average_rating ,count(review_score) as given_by from olist_order_reviews_dataset r inner join olist_order_items_dataset ot on r.order_id = ot.order_id inner join  olist_sellers_dataset p on ot.seller_id = p.seller_id group by p.seller_id order by  given_by , average_rating,no_of_products desc; 
+select p.seller_id,count(ot.product_id) as no_of_products,round(avg(review_score),2) as average_rating ,count(review_score) as given_by from olist_order_reviews_dataset r inner join olist_order_items_dataset ot on r.order_id = ot.order_id inner join  olist_sellers_dataset p on ot.seller_id = p.seller_id group by p.seller_id having no_of_products>5 order by average_rating desc limit 1; 
+#d71d863e5ef30d94e440c11be17dcd8f	6	5.00	6
 
 #8.  Which sellers have the lowest average ratings?
-select p.seller_id,count(ot.product_id) as no_of_products,round(avg(review_score),2) as average_rating ,count(review_score) as given_by from olist_order_reviews_dataset r inner join olist_order_items_dataset ot on r.order_id = ot.order_id inner join  olist_sellers_dataset p on ot.seller_id = p.seller_id group by p.seller_id order by  given_by , average_rating,no_of_products asc; 
+select p.seller_id,count(ot.product_id) as no_of_products,round(avg(review_score),2) as average_rating ,count(review_score) as given_by from olist_order_reviews_dataset r inner join olist_order_items_dataset ot on r.order_id = ot.order_id inner join  olist_sellers_dataset p on ot.seller_id = p.seller_id group by p.seller_id having no_of_products>5 order by average_rating asc limit 1; 
+#955fee9216a65b617aa5c0531780ce60	6	1.00	6
