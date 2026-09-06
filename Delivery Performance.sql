@@ -39,7 +39,7 @@ select count(order_id) from (select order_id , days_delivery_time from (select o
 select count(order_id) as order_count from olist_orders_dataset where order_status = "delivered" and order_estimated_delivery_date is not null and order_delivered_customer_date is not null and order_estimated_delivery_date < order_delivered_customer_date;
 #7826
 
-#9. • What percentage of orders were delivered late?
+#9. What percentage of orders were delivered late?
 alter table olist_orders_dataset add column arrived varchar(255);
 
 update olist_orders_dataset set arrived = 

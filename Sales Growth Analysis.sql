@@ -1,6 +1,6 @@
 use sql_project;
 
-#Calculate  previous month's revenue, revenue difference, and month-over-month growth percentage.
+#1.Calculate  previous month's revenue, revenue difference, and month-over-month growth percentage.
 
 #monthly revenue
 select month(shipping_limit_date) as month , year(shipping_limit_date) as year, round(sum(price)+sum(freight_value),2) as revenue_of_month from olist_order_items_dataset group by year, month order by year, revenue_of_month desc;
