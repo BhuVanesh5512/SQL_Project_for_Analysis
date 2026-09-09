@@ -1,4 +1,4 @@
-
+use sql_project;
 select * from olist_order_payments_dataset; 
 
 #1. What payment methods are available?
@@ -35,10 +35,6 @@ select order_id, round(avg(payment_installments),2) as avg_installments_used fro
 select payment_type, round(avg(payment_installments),2) as avg_installments_used from olist_order_payments_dataset group by payment_type order by avg_installments_used desc;
 
 #8. How does average transaction value differ between payment methods?
-select payment_type,sum(payment_value) over(partition by payment_type) as rev from olist_order_payments_dataset where payment_type!="not_defined";
 
-select payment_type,rev from (select payment_type,sum(payment_value) over(partition by payment_type) as rev from olist_order_payments_dataset where payment_type!="not_defined" ) as t1 group by payment_type,rev;
+SELECT  payment_type, AVG(payment_value) AS avg_transaction_value, SUM(payment_value) AS total_revenue, COUNT(payment_value) AS txn_count FROM (SELECT payment_type,payment_value,SUM(payment_value) OVER (PARTITION BY payment_type) AS rev,COUNT(payment_value) OVER (PARTITION BY payment_type) AS cnt FROM olist_order_payments_dataset WHERE payment_type != 'not_defined' ) AS t1 GROUP BY payment_type, rev, cnt ORDER BY avg_transaction_value DESC;
 
-select payment_type,rev, lag(rev) over(order by payment_type) as per from (select payment_type,rev from (select payment_type,sum(payment_value) over(partition by payment_type) as rev from olist_order_payments_dataset where payment_type!="not_defined" ) as t1 group by payment_type,rev order by rev) as t2; 
-
-select payment_type,avg(per) as cper, max(per) as mper from (select payment_type,rev , lag(rev) over(order by payment_type) as per from (select payment_type,rev from (select payment_type,sum(payment_value) over(partition by payment_type) as rev from olist_order_payments_dataset where payment_type!="not_defined" ) as t1  order by rev) as t2) as t3;
