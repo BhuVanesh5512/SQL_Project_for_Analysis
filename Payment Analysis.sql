@@ -38,3 +38,5 @@ select payment_type, round(avg(payment_installments),2) as avg_installments_used
 
 SELECT  payment_type, AVG(payment_value) AS avg_transaction_value, SUM(payment_value) AS total_revenue, COUNT(payment_value) AS txn_count FROM (SELECT payment_type,payment_value,SUM(payment_value) OVER (PARTITION BY payment_type) AS rev,COUNT(payment_value) OVER (PARTITION BY payment_type) AS cnt FROM olist_order_payments_dataset WHERE payment_type != 'not_defined' ) AS t1 GROUP BY payment_type, rev, cnt ORDER BY avg_transaction_value DESC;
 
+SELECT  payment_type, AVG(payment_value) AS avg_transaction_value FROM (SELECT payment_type,payment_value,SUM(payment_value) OVER (PARTITION BY payment_type) AS rev,COUNT(payment_value) OVER (PARTITION BY payment_type) AS cnt FROM olist_order_payments_dataset WHERE payment_type != 'not_defined' ) AS t1 GROUP BY payment_type, rev, cnt ORDER BY avg_transaction_value DESC;
+
